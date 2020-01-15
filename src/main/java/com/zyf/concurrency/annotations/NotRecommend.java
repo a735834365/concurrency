@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 课程里用来标记 【不推荐】 的类或者写法
+ * 用来标记:不推荐的类或者写法
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)

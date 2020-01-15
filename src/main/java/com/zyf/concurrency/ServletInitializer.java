@@ -1,4 +1,4 @@
-package com.mmall.concurrency;
+package com.zyf.concurrency;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

@@ -1,4 +1,4 @@
-package com.mmall.concurrency;
+package com.zyf.concurrency;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

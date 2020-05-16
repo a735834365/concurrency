@@ -1,7 +1,8 @@
 package com.zyf.concurrency.expmple;
 
 import java.util.concurrent.*;
-import static com.zyf.concurrency.examples.LaunderThrowable.launderThrowable;
+
+import static com.zyf.concurrency.expmple.LaunderThrowable.launderThrowable;
 
 /**
  * TimedRun

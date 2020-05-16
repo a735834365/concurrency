@@ -2,9 +2,8 @@ package com.zyf.concurrency.expmple;
 
 import java.util.*;
 
-import com.zyf.concurrency.examples.DynamicOrderDeadlock.Account;
-import com.zyf.concurrency.examples.DynamicOrderDeadlock.DollarAmount;
-
+import com.zyf.concurrency.expmple.DynamicOrderDeadlock.Account;
+import com.zyf.concurrency.expmple.DynamicOrderDeadlock.DollarAmount;
 /**
  * DemonstrateDeadlock
  * <p/>

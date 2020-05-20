@@ -12,6 +12,8 @@ import java.util.Map;
 /**
  * 基于监视器模式的车辆追踪
  *
+ * 个人理解：通过将可变的Point封装在deepCopy()中，使其线程安全
+ *
  * create by yifeng
  */
 @ThreadSafe
@@ -39,7 +41,12 @@ public class MonitorVehicleTracker {
     /**
      * 深度拷贝
      * 引自原文：
-     *      deepCopy并不只是用unmodifiableMap来包装Map的，因为这只能
+     *      deepCopy并不只是用unmodifiableMap来包装Map的，因为这只能防止容器对象被修改，
+     *      而不能防止调用者修改保存在容器中的可变对象。如果只是通过拷贝构造函数来填充deepCopy
+     *      中的HashMap中，那么同样是不正确的，因为这样做只赋值了指向point对象的引用，而不是
+     *      Point本身。
+     *      个人理解：不仅仅要修改要将Map设置成不可变的，还要修改point对象的引用，防止容器
+     *      中的可变对象修改。
      * @param m
      * @return
      */

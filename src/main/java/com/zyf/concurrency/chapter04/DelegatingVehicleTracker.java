@@ -9,14 +9,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 引自原文：
- *      因为Point类是不可变的，线程安全的，所以在返回location时不需要复制。
+ *      因为Point类是不可变的，线程安全的，所以在返回location时不需要做深度复制。
  *
  * create by yifeng
  */
 @ThreadSafe
 public class DelegatingVehicleTracker {
 
+    // 该变量是一个动态的(车辆位置的修改会及时反映给该属性)
     private final ConcurrentHashMap<String, Point> locations;
+    // 该属性为车辆位置的快照（可能导致不一致的车辆位置）
     private final Map<String, Point> unmodifiableMap;
 
     public DelegatingVehicleTracker(Map<String ,Point> points) {
@@ -41,7 +43,7 @@ public class DelegatingVehicleTracker {
     }
 
     // 返回locations的静态拷贝而非实时拷贝
-    public Map<String, Point> setLocationAsStatic() {
+    public Map<String, Point> getLocationAsStatic() {
         return Collections.unmodifiableMap(
                 new HashMap<>(locations));
     }

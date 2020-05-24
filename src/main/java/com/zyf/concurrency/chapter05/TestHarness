@@ -1,0 +1,35 @@
+public class TestHarness { 
+    public long timeTasks(int nThreads, final Runnable task) {
+        // 开始阀门初始化为1
+        final CountDownLatch startGate = new CountDownLatch(1);
+        // 结束阀门 初始化为工作线程的数量
+        final CountDownLatch endGate = new CountDownLatch(nThreads);
+        
+        // 循环使所有工作线程都初始化
+        for(int i = 0; i < nThreads; i++) {
+            Thread t = th -> {
+                try {
+                    // 等待阀门打开，等待所有工作线程都初始化       
+                    startGate.await();
+                    try {       
+                        task.run();
+                    } finally {
+                        // 线程执行结束，则-1操作
+                        endGate.countDown();
+                    }                                                                                                  
+                } catch (InterruptedException ignored) {}                              
+            };
+                        
+            t.start();
+        }
+        long start = System.nanoTime();
+        // 打开阀门，线程开始工作
+        startGate.countDown();
+        // 结束阀门等待，直到所有工作线程都执行完毕
+        endGate.await();
+        long end = System.nanoTime();
+        // 计算执行时间
+        return end - start;
+    }
+
+}

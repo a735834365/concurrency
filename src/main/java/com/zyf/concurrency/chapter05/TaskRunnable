@@ -1,0 +1,34 @@
+/**
+ *
+ * 
+ *
+ *
+ *
+ *
+ */
+
+public class TaskRunnable implements Runnable {
+
+
+        BlockingQueue<Task> queue;
+
+        @Override        
+        public void run() {
+            try{
+                processTask(queue.take());
+            }catch(InterruptedException e) {
+                // 执行中断
+                Thread.currentThread().interrupt(); 
+            }
+                                
+        }
+
+        // 处理任务
+        void processTask(Task task) {
+            // Handle the task
+                            
+        }
+        interface Task{
+        }                     
+                                                                           
+}

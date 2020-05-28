@@ -1,3 +1,7 @@
+package com.zyf.concurrency.chapter05;
+
+import java.util.concurrent.BlockingQueue;
+
 /**
  *
  * 

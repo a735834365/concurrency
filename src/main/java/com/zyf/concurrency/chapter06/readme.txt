@@ -132,9 +132,7 @@
             可显示的只读Runnable或Callable实例化一个FutureTask
                 （FutureTask实现了Runnable，也可以将FutureTask提交给Executor执行或者直接调用run方法。）
 
-
-
-
+    将Runnable或Callable提交到Executor的过程中包含了一个安全发布过程（参见3.5节），即将Runnable或Callable从提交线程发布到最终执行任务的线程。设置Future德国的过程也包含了一个安全发布，即将这个结果从计算它的线程发布到任何通过get获得它的线程。
 
         https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/Future.html#method_summary
 

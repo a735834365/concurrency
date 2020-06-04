@@ -33,7 +33,7 @@
         应用程序管理机制
         性能监视等
 
-6.2.1 实例：基于Executor的Web服务器 -TaskExecutionWebServer，ThreadPerTaskExecutor，WithThreadExecutor
+6.2.1 示例：基于Executor的Web服务器 -TaskExecutionWebServer，ThreadPerTaskExecutor，WithThreadExecutor
     基于Executor来构建Web服务器是非常容易的。
 
 6.2.2 执行策略
@@ -108,7 +108,7 @@
 
 6.3 找出可利用的并行性 - OutOfTime
 
-6.3.1 实例：串行的页面渲染器 - SingleThreadRenderer
+6.3.1 示例：串行的页面渲染器 - SingleThreadRenderer
 
 6.3.2 携带结果的任务 Callable 与 Future - OverrideNewTaskFor
     Runnable优点：
@@ -125,14 +125,47 @@
             该方法的行为取决于任务的状态（尚未开始、正在运行、以完成）。
             任务已完成：get会立即返回或者抛出一个Exception
             任务未完成：get将阻塞并直到任务完成
-            任务抛出了异常：get将异常封装为ExecutionException并重新抛出。如果四任务被取消，那么get将抛出CancellationException，如果get抛出了ExecutionException，那么可以通过getCause来获得被封装的初始异常。
+            任务抛出了异常：get将异常封装为ExecutionException并重新抛出。如果四任务被取消，那么get将抛出CancellationException，
+                如果get抛出了ExecutionException，那么可以通过getCause来获得被封装的初始异常。
 
         创建方式：
             ExecutorService中所有submit方法都返回一个Future，用来获得任务的执行结果或取消任务
             可显示的只读Runnable或Callable实例化一个FutureTask
                 （FutureTask实现了Runnable，也可以将FutureTask提交给Executor执行或者直接调用run方法。）
 
-    将Runnable或Callable提交到Executor的过程中包含了一个安全发布过程（参见3.5节），即将Runnable或Callable从提交线程发布到最终执行任务的线程。设置Future德国的过程也包含了一个安全发布，即将这个结果从计算它的线程发布到任何通过get获得它的线程。
+    将Runnable或Callable提交到Executor的过程中包含了一个安全发布过程（参见3.5节），即将Runnable或Callable从提交线程发布到最终执行任务
+        的线程。设置Future德国的过程也包含了一个安全发布，即将这个结果从计算它的线程发布到任何通过get获得它的线程。
 
         https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/Future.html#method_summary
+
+6.3.3 示例：使用Future实现页面渲染 - FutureRenderer
+
+6.3.4 在异构任务并行化中存在的局限
+    只有当大量-相互独立-且-同构-的任务可以并发处理时，才能体现出将程序的工作负载分配到多个任务中带来的真正性能提升。
+
+6.3.5 CompletionService：Executor与BlockingQueue
+    Future的get方法,通过将参数timeout指定为0，从而通过轮询来判断任务是否完成。
+        java.util.concurrent.FutureTask.awaitDone
+    CompletionService将Executor和BlockingQueue的功能融合在一起，可以将Callable任务提交给他执行，
+        然后使用队列的take和poll等方法获得已完成的结果，这些结果完成时被封装为Future。
+    ExecutorCompletionService的实现：
+        实现了CompletionService，并将计算部分委托给一个Executor。
+        在构造函数中创建一个BlockingQueue保存计算完成的结果。
+        计算完成，调用FutureTask中的done方法。-该方法是预留方法，交给子类重写
+        提交某个任务时，该任务会被包装成QueueingFuture（这是ExecutorCompletionService的内部类），
+            这是FutureTask的一个子类，然后再改写子类的done方法，并将结果放入BlockingQueue中
+        take和poll方法委托给BlockingQueue，这些方法会在得出结果之前阻塞
+
+        ExecutorCompletionServiceJDK文档
+            https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/ExecutorCompletionService.html
+
+6.3.6 示例：使用CompltionService实现页面渲染器 - Renderer
+
+6.3.7 示例：为任务设置时限 - RenderWithTimeBudget
+
+6.3.8 示例：旅行预订门户网站 - TimeBudget
+
+第六章小节
+    Executor框架将任务提交与执行策略解耦开来，同时支持多种不同类型的执行策略。
+
 

@@ -104,7 +104,7 @@
         Timer不捕获异常 - 可看代码 OutOfTime
             当TimerTask抛出未检查异常将终止线程。这样，已被调度但尚未执行的TimerTask将不会执行，新的任务也不能被调度（线程泄露[Thread Leakage], 7.3介绍该问题）
 
-    构建自己的调度服务可以使用DelayQueue，它实现BlockingQueue，并未ScheduleThreadPoolExecutor提供调度服务
+    构建自己的调度服务可以使用DelayQueue，它实现BlockingQueue，并为ScheduleThreadPoolExecutor提供调度服务
 
 6.3 找出可利用的并行性 - OutOfTime
 

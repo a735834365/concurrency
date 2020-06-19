@@ -15,7 +15,7 @@ public class OutOfTime {
         Timer timer = new Timer();
         timer.schedule(new ThrowTask(), 1);
         SECONDS.sleep(1);
-        // 报错-任务以取消 之前的任务抛出了为捕获一次，导致该任务将不能被执行
+        // 并没有抛出RuntimeException-任务已取消 因之前的任务抛出了未捕获的异常，导致该任务不能被执行
         timer.schedule(new ThrowTask(), 1);
         SECONDS.sleep(5);
     }

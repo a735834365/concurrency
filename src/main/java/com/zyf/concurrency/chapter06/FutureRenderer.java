@@ -9,7 +9,8 @@ import java.util.concurrent.*;
 /**
  * 使用Future等待图像下载
  * 引自原文：
- *      将渲染过程分解为两个任务，一个是渲染所有文本（CPU密集型），另一个是下载所有图像（I/O密集型）.当然，还能做得更好：每下载一幅图像时就立刻显示出来
+ *      将渲染过程分解为两个任务，一个是渲染所有文本（CPU密集型），另一个是下载所有图像（I/O密集型）。
+ *      当然，还能做得更好：每下载一幅图像时就立刻显示出来
  *
  * create by yifeng
  */
@@ -28,7 +29,7 @@ public abstract class FutureRenderer {
                     }
                     return result;
                 };
-        // 下载图的同时渲染文本
+        // 下载图像的同时渲染文本
         Future<List<ImageData>> future = executor.submit(task);
         renderText(source);
 

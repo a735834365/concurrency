@@ -12,7 +12,8 @@ import java.util.concurrent.Future;
  * 使用CompletionService，使页面元素在下载完成后立即显示出来
  *
  * 引自原文：
- *      多个ExecutorCompletionService（ECS）可以共享一个Executor，ECS相当于一组计算的句柄，这类似于Future作为单个计算的句柄。这样就可以记录提交的任务数量并计算出已经完成结果的数量。
+ *      多个ExecutorCompletionService（ECS）可以共享一个Executor，ECS相当于一组计算的句柄，
+ *      这类似于Future作为单个计算的句柄。这样就可以记录提交的任务数量并计算出已经完成结果的数量。
  *      为每一幅图像的下载创建一个独立任务并在线程池中执行。将串行的下载过程转换为并行的过程：减少下载所有图像的总时间
  *      通过从CompletionService中获取结果以及使每张图片在下载完成后立即显示出啦，能使用户获得一个更加动态和更高响应的用户界面
  *

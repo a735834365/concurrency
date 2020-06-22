@@ -63,7 +63,7 @@
             CallerRunsPolicy（调用者运行策略）
                 该策略实现了一种调节机制，该策略既不会抛弃任务，也不会抛出异常，而是将某些任务退回到调用者，从而降低新任务的流量。
 
-    8.3.4 线程工厂 - 参数threadFactor介绍 - MyThreadFactory，MyThreadFactory
+    8.3.4 线程工厂 - 参数threadFactor介绍 - MyThreadFactory，MyAppThread
         线程池创建线程会通过线程工厂，默认的线程工厂将创建新的、非守护的线程，并且不包含特殊的配置信息。
         以下以ThreadFactory接口
         https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/ThreadFactory.html#method_summary

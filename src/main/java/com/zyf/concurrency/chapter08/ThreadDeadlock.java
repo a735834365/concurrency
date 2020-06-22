@@ -54,6 +54,7 @@ public class ThreadDeadlock {
     }
 
     public static void main(String[] args) throws Exception {
+        // 使用单线程的Executor，该程序将永远不会停止
         ThreadDeadlock deadlock = new ThreadDeadlock();
         Future<String> submit = deadlock.exec.submit(deadlock.new RenderPageTask());
         submit.get();

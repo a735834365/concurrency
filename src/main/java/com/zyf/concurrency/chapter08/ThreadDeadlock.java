@@ -1,9 +1,6 @@
 package com.zyf.concurrency.chapter08;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * 在单线程Executor中任务发生死锁（不要这么做）
@@ -37,6 +34,10 @@ public class ThreadDeadlock {
         @Override
         public String call() throws Exception {
             // TODO 不是很理解为什么会死锁
+            /**
+             * 个人理解
+             *  page 的渲染依赖header和footer，只有当header和footer都执行完后，page，才能完成返回，这样就有了死锁的条件
+             */
             Future<String> header, footer;
             header = exec.submit(new LoadFileTask("header.html"));
             footer = exec.submit(new LoadFileTask("footer.html"));
@@ -50,6 +51,13 @@ public class ThreadDeadlock {
             // Here's where we would actually reader the page
             return "";
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        ThreadDeadlock deadlock = new ThreadDeadlock();
+        RenderPageTask task = deadlock.new RenderPageTask();
+        task.call();
+        deadlock.exec.shutdown();
     }
 
 

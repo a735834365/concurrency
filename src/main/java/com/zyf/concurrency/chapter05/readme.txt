@@ -40,7 +40,7 @@
     5.2.1 ConcurrentHashMap
         仔细回忆HashMap.get和List.contains的源码，遍历散列桶或链表时，必须在许多元素中调用equals（需要计算）。基于散列的容器，hashCode分布不均匀，则退化成线性列表。
         如果在以上情况使用同步锁，性能可想而知。
-        ConcurrentHashMap使用-分段锁-，它并不会抛出ConcurrentModificationException，返回的迭代器有若一致性（Weakly Consistent），并非及时失败。
+        ConcurrentHashMap使用-分段锁-，它并不会抛出ConcurrentModificationException，返回的迭代器有弱一致性（Weakly Consistent），并非及时失败。
         ConcurrentHashMap的缺点：
             * size和isEmpty等需要在整个Map上计算的方法在计算时返回的结果可能已经过时了，它实际上只是一个预估值
             * 在单线程环境中损失非常小的性能（换取在并发环境下实现更高的吞吐量）
@@ -62,7 +62,7 @@
             * 在每次修改都会创建并重新发布一个新的容器副本，从而实现可变性
             * 迭代时保留底层基础数组的引用，该数组是事实不可变对象（使用volatile确保可见性）- volatile可查看第三章笔记
 
-        缺点：每次修改容器都会赋值底层数组，需要一定开销
+        缺点：每次修改容器都会复制底层数组，需要一定开销
 
         适用场景：
             * 迭代操作多于修改操作
@@ -74,7 +74,7 @@
             无界队列：不需要阻塞
             有界队列：队列已满，则put方法将阻塞
 
-        阻塞队列支持生产者消费者设计模式，该模式将“找出需要完成的工作”与”执行工作“这两个过程分离开来，并吧工作项放入一个“待完成”列表
+        阻塞队列支持生产者消费者设计模式，该模式将“找出需要完成的工作”与”执行工作“这两个过程分离开来，并把工作项放入一个“待完成”列表
         Executor任务执行调度框架-第六章和第8章主题
             线程池与工作队列的组合-常见的生产者消费者设计模式
 
@@ -115,7 +115,7 @@
             * WATING
             * TIMED_WATING
 
-        当在代码中调用了一个会抛出InterruptedException的方法时，腰围响应中断作好准备，在类库中，有两种基本选择
+        当在代码中调用了一个会抛出InterruptedException的方法时，要为响应中断作好准备，在类库中，有两种基本选择
             * 传递 将异常传递出去，传递给调用者
             * 恢复中断 必须捕获时，可在当前线程中调用interrupt从中断中恢复
 
@@ -152,7 +152,7 @@
         FutureTask.get的行为依赖于任务的状态。如果它以及完成,get可以立即得到返回结果，否则会被阻塞直到任务转入完成状态，然后返回结果或者抛出异常
         FutureTask把计算的结果从运行计算的线程传递到需要这个结果的线程；FutureTask的规约保证了这种传递建立在结果的安全发布基础之上。
 
-        Excutor框架利用FutureTask来完成异步任务，并可以用来进行任何潜在的耗时计算，而且可以在真正需要计算结果之前就启动他们开始计算。
+        Executor框架利用FutureTask来完成异步任务，并可以用来进行任何潜在的耗时计算，而且可以在真正需要计算结果之前就启动他们开始计算。
 
     5.5.3 信号量 - BoundedHashSet
         计数信号量（Counting semaphore）
@@ -185,7 +185,7 @@
     5.6 构建高效且可伸缩的结果缓存 - Computable, Memoizer1, Memoizer2, Memoizer3, Memoizer, Factorizer
 
 第一部分小节
-    * 可变状态时至关重要的（It's the mutable state, stupid）
+    * 可变状态是至关重要的（It's the mutable state, stupid）
         所有的并发问题都可以归结为如何协调对并发状态的访问。可变状态越少，就越容易确保线程安全性。
     * 尽量将域声明为final类型，除非需要他们是可变的
     * 不可变对象一定是线程安全的
